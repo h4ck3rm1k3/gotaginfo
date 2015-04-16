@@ -1,9 +1,10 @@
 package main
 
 import (
-//	"github.com/PuerkitoBio/goquery"
-	"github.com/headzoo/surf"
+	//	"github.com/PuerkitoBio/goquery"
 	"fmt"
+	"strings"
+	"github.com/headzoo/surf"
 	"io"
 	"net/http"
 	"os"
@@ -27,29 +28,53 @@ func main() {
 			fmt.Println(s.Text)
 
 			filename := s.Text
-			fout, err := os.Create(filename)
-			if err != nil {
-				fmt.Printf(
-					"Error creating file '%s'.", filename)
-				continue
-			}
-			defer fout.Close()
 
-			resp, err := http.Get(s.Asset.Url().String())
-			if err != nil {
-				fmt.Printf(
-					"Error downloading file '%s' %s.", filename, err)
+			if _, err := os.Stat(filename); os.IsNotExist(err) {
+				fout, err := os.Create(filename)
+				if err != nil {
+					fmt.Printf(
+						"Error creating file '%s'.", filename)
+					continue
+				}
+				defer fout.Close()
 
-			}
-			defer resp.Body.Close()
+				resp, err := http.Get(s.Asset.Url().String())
+				if err != nil {
+					fmt.Printf(
+						"Error downloading file '%s' %s.", filename, err)
 
-	
-			_, err = io.Copy(fout, resp.Body)
-			if err != nil {
+				}
+				defer resp.Body.Close()
+
+				_, err = io.Copy(fout, resp.Body)
+				if err != nil {
+					fmt.Printf(
+						"Error downloading file '%s'.", filename)
+				}
+
+			} else {
 				fmt.Printf(
-					"Error downloading file '%s'.", filename)
-			}
+					"File exists already '%s'.\n", filename)
+				u_filename := strings.TrimSuffix(filename, ".bz2")
+
 			
+				if _, err := os.Stat(u_filename); os.IsNotExist(err) {
+					fmt.Printf(
+						"To uncompress into '%s'.\n", u_filename)
+					// now decompress
+					Uncompress(filename, u_filename)
+				} else {
+					fmt.Printf(
+						"Uncompressed DB File exists already '%s'.\n", u_filename)
+					
+				}
+
+				// now visit the table
+				DescribeDb(u_filename)
+
+
+			}
+
 		}
 	}
 }
