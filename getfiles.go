@@ -68,13 +68,7 @@ func main() {
 						"Uncompressed DB File exists already '%s'.\n", u_filename)
 					
 				}
-
-				// now visit the table
-				DescribeDb(u_filename)
-
-
 			}
-
 		}
 	}
 }
