@@ -1,4 +1,4 @@
-package captnproto
+package model
 import "github.com/h4ck3rm1k3/taginfo/database/taginfo"
 
 func Set(src taginfo_model.Keys, dest Keys){

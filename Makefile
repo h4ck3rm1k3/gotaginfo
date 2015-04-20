@@ -9,7 +9,7 @@ compile:
 readtables:
 	#~/install/bin/go build github.com/h4ck3rm1k3/taginfo/readkeys
 	~/install/bin/go install github.com/h4ck3rm1k3/taginfo/readkeys
-	./bin/readkeys
+	$(GOPATH)/bin/readkeys
 
 genproto:
 	~/install/bin/go install github.com/h4ck3rm1k3/taginfo/genproto
