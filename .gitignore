@@ -31,3 +31,5 @@ _testmain.go
 /capnproto/schema.capnp~
 /capnproto/#schema.capnp#
 /capnproto/.#schema.capnp
+/key.data
+/key.data

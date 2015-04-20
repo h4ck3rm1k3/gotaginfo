@@ -11,8 +11,8 @@ import capn "github.com/glycerine/go-capnproto"
 
 func main() {
 
-	var prototype taginfo_model.Keys
-	var records []taginfo_model.Keys
+	var record taginfo_model.Keys
+//	var records []taginfo_model.Keys
 	
 	var settings = sqlite.ConnectionURL{
 		Database: "./data/" + taginfo_model.DBName,
@@ -27,7 +27,7 @@ func main() {
 	if err != nil {fmt.Println(err); os.Exit(-1); }
 	defer file.Close()
 	
-	dataCollection, err := sess.Collection(prototype.TableName())
+	dataCollection, err := sess.Collection(record.TableName())
 	if err != nil {
 		log.Fatalf("sess.Collection(): %q : %s\n", err, 
 			taginfo_model.Keys.TableName)
@@ -37,23 +37,29 @@ func main() {
 	res = dataCollection.Find()
 	
 	fmt.Printf("after find\n")
-	// Query all results and fill the birthday variable with them.
-	err = res.All(&records)
-
-	fmt.Printf("after all\n")
+	
+	total, err := res.Count()
+	
 	if err != nil {
-		log.Fatalf("res.All(): %q\n", err)
+		fmt.Printf("error %q",err)
 	}
+	
+	fmt.Printf("Found Records %v\n", total)
+	
+	for {
 
-	for i, record := range records {
-		fmt.Printf("record %n\n", i)
-		fmt.Printf("Record %v\n", record)
-		seg := capn.NewBuffer(nil)
-		key := model.NewKeys(seg)
-		model.Set(record,key)
-		buf := bytes.Buffer{}
-		seg.WriteTo(&buf)
-		file.Write(buf.Bytes())
+		err = res.Next(&record)
+		if err == nil {
+			//fmt.Printf("Record %v\n", record)
+			seg := capn.NewBuffer(nil)
+			key := model.NewKeys(seg)
+			model.Set(record,key)
+			buf := bytes.Buffer{}
+			seg.WriteTo(&buf)
+			file.Write(buf.Bytes())
+		} else{
+			log.Fatalf("res.Next(): %q\n", err)
+		}
 		
 	}
 	
