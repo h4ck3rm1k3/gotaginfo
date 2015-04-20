@@ -25,3 +25,9 @@ _testmain.go
 *.test
 *.prof
 /captnproto/schema.capnp~
+/Makefile~
+/readkeys/#readkeys.go#
+/readkeys/.#readkeys.go
+/capnproto/schema.capnp~
+/capnproto/#schema.capnp#
+/capnproto/.#schema.capnp

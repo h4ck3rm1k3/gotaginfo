@@ -5,7 +5,8 @@ import "upper.io/db"
 import "log"
 import "fmt"
 import "github.com/h4ck3rm1k3/captnproto-gen"
-//import "github.com/glycerine/go-capnproto"
+import model "github.com/h4ck3rm1k3/taginfo/captnproto"
+import capn "github.com/glycerine/go-capnproto"
 
 func main() {
 
@@ -46,6 +47,10 @@ func main() {
 	for i, record := range records {
 		fmt.Printf("record %n\n", i)
 		fmt.Printf("Record %v\n", record)
+		seg := capn.NewBuffer(nil)
+		church := models.NewChurch(seg)
+		
+		
 	}
 	
 }
