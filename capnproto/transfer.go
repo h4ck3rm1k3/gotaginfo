@@ -1,7 +1,7 @@
 package model
 import "github.com/h4ck3rm1k3/taginfo/database/taginfo"
 
-func Set(src taginfo_model.Keys, dest Keys){
+func Set(src * taginfo_model.Keys, dest * Keys){
 	dest.SetKey(src.Key)
 	dest.SetCountall(src.Countall)
 	dest.SetCountnodes(src.Countnodes)
@@ -21,7 +21,8 @@ func Set(src taginfo_model.Keys, dest Keys){
 	dest.SetInprojects(src.Inprojects)
 	dest.SetCharacters(src.Characters)
 }
-func Get(src Keys, dest taginfo_model.Keys){
+
+func Get(src * Keys, dest * taginfo_model.Keys){
 	dest.Key=src.Key()
 	dest.Countall=src.Countall()
 	dest.Countnodes=src.Countnodes()

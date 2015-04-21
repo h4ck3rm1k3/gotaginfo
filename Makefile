@@ -11,6 +11,10 @@ readtables:
 	~/install/bin/go install github.com/h4ck3rm1k3/taginfo/readkeys
 	$(GOPATH)/bin/readkeys
 
+readdata2:
+	~/install/bin/go install github.com/h4ck3rm1k3/taginfo/readdata
+	$(GOPATH)/bin/readdata
+
 genproto:
 	~/install/bin/go install github.com/h4ck3rm1k3/taginfo/genproto
 	$(GOPATH)/bin/genproto

@@ -47,17 +47,18 @@ func main() {
 	fmt.Printf("Found Records %v\n", total)
 	
 	for {
-
 		err = res.Next(&record)
 		if err == nil {
 			//fmt.Printf("Record %v\n", record)
 			seg := capn.NewBuffer(nil)
-			key := model.NewKeys(seg)
+			key := model.NewRootKeys(seg)
 			model.Set(record,key)
 			buf := bytes.Buffer{}
 			seg.WriteTo(&buf)
 			file.Write(buf.Bytes())
-		} else{
+		}else if err == db.ErrNoMoreRows {
+			break
+		}else{
 			log.Fatalf("res.Next(): %q\n", err)
 		}
 		
